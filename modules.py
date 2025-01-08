@@ -1,8 +1,9 @@
-import streamlit as st
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import quote, urljoin
+
 
 def get_links_from_main_page(url):
     """Main page scraper to get all links within a specific table."""
@@ -106,58 +107,3 @@ def summary_data_frame(df):
     df["合成確率"] = round(df["G数"] / ( df["BB"] + df["RB"] ),1)
 
     return df
-
-def create_content(main_url):
-    st.write("スクレイピングを開始します...")
-
-    try:
-        # Get links from the main page
-        links = get_links_from_main_page(main_url)
-        st.write(f"複数設置機種のリンクを取得しました: {len(links)}件")
-
-        # Initialize an empty DataFrame
-        combined_df = pd.DataFrame()
-
-        # Scrape each detail page
-        for i, link in enumerate(links):
-#            st.write(f"ページ {i + 1}: {link} をスクレイピング中...")
-            df = scrape_detail_page(link)
-            combined_df = pd.concat([combined_df, df])
-
-        # Get links from the main page
-        links = get_links_from_main_page_variety(main_url)
-        st.write(f"少数設置機種のリンクを取得しました: {len(links)}件")
-
-        # Scrape each detail page
-        for i, link in enumerate(links):
-#            st.write(f"ページ {i + 1}: {link} をスクレイピング中...")
-            df = scrape_detail_page_variety(link)
-            combined_df = pd.concat([combined_df, df])
-
-        # Add aggregated info
-        combined_df = summary_data_frame(combined_df)
-
-        # Display the result
-        st.write("スクレイピングが完了しました。結果を表示します。")
-        st.dataframe(combined_df)
-
-        # Option to download as CSV
-        csv = combined_df.to_csv(index=False).encode('utf-8')
-        st.download_button("CSVをダウンロード", data=csv, file_name="scraped_data.csv", mime="text/csv")
-
-    except Exception as e:
-        st.error(f"エラーが発生しました: {e}")
-
-def main():
-    st.title("csv作成ビックマーチ")
-
-    target_date = st.text_input('日付を指定：YYYYMMDD')
-
-    # Main URL
-    main_url = "https://www.slorepo.com/hole/e38393e38383e382afe3839ee383bce38381e69db1e7bf92e5bf97e9878ee5ba97code/" + target_date + "/"
-
-    if st.button('実行'):
-        create_content(main_url)
-
-if __name__ == "__main__":
-    main()
