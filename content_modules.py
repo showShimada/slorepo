@@ -14,9 +14,7 @@ def create_one_day_data(main_url):
         combined_df = pd.DataFrame()
 
         # Scrape each detail page
-        # for i, link in enumerate(links):
         for link in links:
-#            st.write(f"ページ {i + 1}: {link} をスクレイピング中...")
             df = modules.scrape_detail_page(link)
             combined_df = pd.concat([combined_df, df])
 
@@ -25,9 +23,7 @@ def create_one_day_data(main_url):
         st.write(f"少数設置機種のリンクを取得しました: {len(links)}件")
 
         # Scrape each detail page
-        # for i, link in enumerate(links):
         for link in links:
-#            st.write(f"ページ {i + 1}: {link} をスクレイピング中...")
             df = modules.scrape_detail_page_variety(link)
             combined_df = pd.concat([combined_df, df])
 

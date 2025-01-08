@@ -194,4 +194,9 @@ def summary_data_frame(df):
     df["合成確率"] = round(df["G数"] / ( df["BB"] + df["RB"] ),1)
     df["payout"] = round(((df["G数"]*3 + df["差枚"]) / (df["G数"]*3))*100,1)
 
+    # カラムの並び替え（必要に応じて）
+    column_order = ["機種", "差枚", "G数", "BB", "RB",
+                    "BB確率", "RB確率", "合成確率", "payout"]
+    df = df[column_order]
+
     return df
