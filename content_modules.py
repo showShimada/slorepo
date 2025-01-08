@@ -29,13 +29,21 @@ def create_one_day_data(main_url):
             df = modules.scrape_detail_page_variety(link)
             combined_df = pd.concat([combined_df, df])
 
-#        summary_by_machine_df = modules.summary_by_machine(combined_df)
+        summary_by_machine_df = modules.summary_by_machine(combined_df)
+        summary_all = modules.summary_by_date(combined_df)
 
         # Add aggregated info
         combined_df = modules.summary_data_frame(combined_df)
 
         # Display the result
         st.write("スクレイピングが完了しました。結果を表示します。")
+        st.header("日付単位集計データ")
+        st.dataframe(summary_all)
+
+        st.header("機種別集計データ")
+        st.dataframe(summary_by_machine_df)
+
+        st.header("台別データ")
         st.dataframe(combined_df)
 
         # Option to download as CSV

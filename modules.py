@@ -101,9 +101,97 @@ def scrape_detail_page_variety(url):
 
     return combined_df
 
+def data_shaping_for_summary(df):
+    df["差枚_mean"] = round(df["差枚_mean"],1)
+    df["G数_mean"] = round(df["G数_mean"],1)
+    df["BB_mean"] = round(df["BB_mean"],1)
+    df["RB_mean"] = round(df["RB_mean"],1)
+    
+    df["BB確率"] = round(df["G数_sum"] / df["BB_sum"],1)
+    df["RB確率"] = round(df["G数_sum"] / df["RB_sum"],1)
+    df["合成確率"] = round(df["G数_sum"] / ( df["BB_sum"] + df["RB_sum"] ),1)
+    df["payout"] = round(((df["G数_sum"]*3 + df["差枚_sum"]) / (df["G数_sum"]*3))*100,1)
+
+    return df
+
+def summary_by_machine(df):
+    # 機種単位でグループ化して集約
+    aggregated = df.groupby("機種").agg({
+        "差枚": ["sum", "mean"],
+        "G数": ["sum", "mean"],
+        "BB": ["sum", "mean"],
+        "RB": ["sum", "mean"]
+    })
+
+    # カラム名のフラット化（必要に応じて）
+    aggregated.columns = ['_'.join(col).strip() for col in aggregated.columns]
+    aggregated.reset_index(inplace=True)
+
+    # 機種単位のデータ数を追加
+    aggregated['台数'] = df.groupby("機種").size().values
+    # "差枚"が0より大きいデータの数を追加
+    aggregated['勝ち'] = df[df["差枚"] > 0].groupby("機種").size().reindex(aggregated["機種"], fill_value=0).values
+
+    aggregated = data_shaping_for_summary(aggregated)
+    # aggregated["差枚_mean"] = round(aggregated["差枚_mean"],1)
+    # aggregated["G数_mean"] = round(aggregated["G数_mean"],1)
+    # aggregated["BB_mean"] = round(aggregated["BB_mean"],1)
+    # aggregated["RB_mean"] = round(aggregated["RB_mean"],1)
+    
+    # aggregated["BB確率"] = round(aggregated["G数_sum"] / aggregated["BB_sum"],1)
+    # aggregated["RB確率"] = round(aggregated["G数_sum"] / aggregated["RB_sum"],1)
+    # aggregated["合成確率"] = round(aggregated["G数_sum"] / ( aggregated["BB_sum"] + aggregated["RB_sum"] ),1)
+    # aggregated["payout"] = round(((aggregated["G数_sum"]*3 + aggregated["差枚_sum"]) / (aggregated["G数_sum"]*3))*100,1)
+
+    # カラムの並び替え（必要に応じて）
+    column_order = ["機種", "勝ち", "台数", "差枚_mean", "G数_mean",
+                    "BB確率", "RB確率", "合成確率", "payout",
+                    "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
+    aggregated = aggregated[column_order]
+
+    return aggregated
+
+def summary_by_date(df):
+    # 日付単位でグループ化して集約
+    aggregated = df.groupby("日付").agg({
+        "差枚": ["sum", "mean"],
+        "G数": ["sum", "mean"],
+        "BB": ["sum", "mean"],
+        "RB": ["sum", "mean"]
+    })
+
+    # カラム名のフラット化（必要に応じて）
+    aggregated.columns = ['_'.join(col).strip() for col in aggregated.columns]
+    aggregated.reset_index(inplace=True)
+
+    # 機種単位のデータ数を追加
+    aggregated['台数'] = df.groupby("日付").size().values
+    # "差枚"が0より大きいデータの数を追加
+    aggregated['勝ち'] = df[df["差枚"] > 0].groupby("日付").size().reindex(aggregated["日付"], fill_value=0).values
+
+    aggregated = data_shaping_for_summary(aggregated)
+    # aggregated["差枚_mean"] = round(aggregated["差枚_mean"],1)
+    # aggregated["G数_mean"] = round(aggregated["G数_mean"],1)
+    # aggregated["BB_mean"] = round(aggregated["BB_mean"],1)
+    # aggregated["RB_mean"] = round(aggregated["RB_mean"],1)
+    
+    # aggregated["BB確率"] = round(aggregated["G数_sum"] / aggregated["BB_sum"],1)
+    # aggregated["RB確率"] = round(aggregated["G数_sum"] / aggregated["RB_sum"],1)
+    # aggregated["合成確率"] = round(aggregated["G数_sum"] / ( aggregated["BB_sum"] + aggregated["RB_sum"] ),1)
+    # aggregated["payout"] = round(((aggregated["G数_sum"]*3 + aggregated["差枚_sum"]) / (aggregated["G数_sum"]*3))*100,1)
+
+    # カラムの並び替え（必要に応じて）
+    column_order = ["日付", "勝ち", "台数", "差枚_mean", "G数_mean",
+                    "BB確率", "RB確率", "合成確率", "payout",
+                    "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
+    aggregated = aggregated[column_order]
+
+    return aggregated
+
 def summary_data_frame(df):
     df["BB確率"] = round(df["G数"] / df["BB"],1)
     df["RB確率"] = round(df["G数"] / df["RB"],1)
     df["合成確率"] = round(df["G数"] / ( df["BB"] + df["RB"] ),1)
+    df["payout"] = round(((df["G数"]*3 + df["差枚"]) / (df["G数"]*3))*100,1)
 
     return df
