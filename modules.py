@@ -144,8 +144,8 @@ def summary_by_machine(df):
     return aggregated
 
 def summary_by_machine_no(df):
-    # 機種単位でグループ化して集約
-    aggregated = df.groupby("台番").agg({
+    # 台番単位でグループ化して集約
+    aggregated = df.groupby(["台番"]).agg({
         "差枚": ["sum", "mean"],
         "G数": ["sum", "mean"],
         "BB": ["sum", "mean"],
@@ -157,9 +157,9 @@ def summary_by_machine_no(df):
     aggregated.reset_index(inplace=True)
 
     # 機種単位のデータ数を追加
-    aggregated['台数'] = df.groupby("台番").size().values
+    aggregated['台数'] = df.groupby(["台番"]).size().values
     # "差枚"が0より大きいデータの数を追加
-    aggregated['勝ち'] = df[df["差枚"] > 0].groupby("台番").size().reindex(aggregated["台番"], fill_value=0).values
+    aggregated['勝ち'] = df[df["差枚"] > 0].groupby(["台番"]).size().reindex(aggregated["台番"], fill_value=0).values
 
     aggregated = data_shaping_for_summary(aggregated)
 
@@ -251,3 +251,25 @@ def get_pivoted_by_machine(df):
     pivoted = pivoted[desired_order]
 
     return pivoted
+
+def scrape_one_day(target_url):
+    # Get links from the main page
+    links = get_links_from_main_page(target_url)
+    # st.write(f"複数設置機種のリンクを取得しました: {len(links)}件")
+
+    combined_df = pd.DataFrame()
+    # Scrape each detail page
+    for link in links:
+        df = scrape_detail_page(link)
+        combined_df = pd.concat([combined_df, df])
+
+    # Get links from the main page
+    links = get_links_from_main_page_variety(target_url)
+    # st.write(f"少数設置機種のリンクを取得しました: {len(links)}件")
+
+    # Scrape each detail page
+    for link in links:
+        df = scrape_detail_page_variety(link)
+        combined_df = pd.concat([combined_df, df])
+    
+    return combined_df

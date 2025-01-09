@@ -16,7 +16,7 @@ def main():
     target_to = st.date_input('終了の日付を選択')
 
     date_to_choose = content_modules.get_date_to_choose(target_from,target_to)
-    target_dates = st.multiselect("choose date to aggregate",date_to_choose)
+    target_dates = st.multiselect("集計対象の日付を選択",date_to_choose)
     
     if st.button('実行'):
         content_modules.create_aggregated_data(main_url,target_dates)
