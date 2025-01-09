@@ -47,6 +47,7 @@ def scrape_detail_page(url):
     df = df.set_index('台番')
     df = df[df.index != '平均']
     df = df.drop(columns='合成')
+    df.reset_index(inplace=True)
 
     # Extract additional information
     machine = soup.select_one('#post-145 > div > h4 > strong').get_text(strip=True)
@@ -97,7 +98,7 @@ def scrape_detail_page_variety(url):
 
         combined_df = pd.concat([combined_df, df])
 
-    combined_df = combined_df.set_index('台番')
+    # combined_df = combined_df.set_index('台番')
 
     return combined_df
 
@@ -133,18 +134,37 @@ def summary_by_machine(df):
     aggregated['勝ち'] = df[df["差枚"] > 0].groupby("機種").size().reindex(aggregated["機種"], fill_value=0).values
 
     aggregated = data_shaping_for_summary(aggregated)
-    # aggregated["差枚_mean"] = round(aggregated["差枚_mean"],1)
-    # aggregated["G数_mean"] = round(aggregated["G数_mean"],1)
-    # aggregated["BB_mean"] = round(aggregated["BB_mean"],1)
-    # aggregated["RB_mean"] = round(aggregated["RB_mean"],1)
-    
-    # aggregated["BB確率"] = round(aggregated["G数_sum"] / aggregated["BB_sum"],1)
-    # aggregated["RB確率"] = round(aggregated["G数_sum"] / aggregated["RB_sum"],1)
-    # aggregated["合成確率"] = round(aggregated["G数_sum"] / ( aggregated["BB_sum"] + aggregated["RB_sum"] ),1)
-    # aggregated["payout"] = round(((aggregated["G数_sum"]*3 + aggregated["差枚_sum"]) / (aggregated["G数_sum"]*3))*100,1)
 
     # カラムの並び替え（必要に応じて）
     column_order = ["機種", "勝ち", "台数", "差枚_mean", "G数_mean",
+                    "BB確率", "RB確率", "合成確率", "payout",
+                    "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
+    aggregated = aggregated[column_order]
+
+    return aggregated
+
+def summary_by_machine_no(df):
+    # 機種単位でグループ化して集約
+    aggregated = df.groupby("台番").agg({
+        "差枚": ["sum", "mean"],
+        "G数": ["sum", "mean"],
+        "BB": ["sum", "mean"],
+        "RB": ["sum", "mean"]
+    })
+
+    # カラム名のフラット化（必要に応じて）
+    aggregated.columns = ['_'.join(col).strip() for col in aggregated.columns]
+    aggregated.reset_index(inplace=True)
+
+    # 機種単位のデータ数を追加
+    aggregated['台数'] = df.groupby("台番").size().values
+    # "差枚"が0より大きいデータの数を追加
+    aggregated['勝ち'] = df[df["差枚"] > 0].groupby("台番").size().reindex(aggregated["台番"], fill_value=0).values
+
+    aggregated = data_shaping_for_summary(aggregated)
+
+    # カラムの並び替え（必要に応じて）
+    column_order = ["台番", "勝ち", "台数", "差枚_mean", "G数_mean",
                     "BB確率", "RB確率", "合成確率", "payout",
                     "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
     aggregated = aggregated[column_order]
@@ -170,15 +190,6 @@ def summary_by_date(df):
     aggregated['勝ち'] = df[df["差枚"] > 0].groupby("日付").size().reindex(aggregated["日付"], fill_value=0).values
 
     aggregated = data_shaping_for_summary(aggregated)
-    # aggregated["差枚_mean"] = round(aggregated["差枚_mean"],1)
-    # aggregated["G数_mean"] = round(aggregated["G数_mean"],1)
-    # aggregated["BB_mean"] = round(aggregated["BB_mean"],1)
-    # aggregated["RB_mean"] = round(aggregated["RB_mean"],1)
-    
-    # aggregated["BB確率"] = round(aggregated["G数_sum"] / aggregated["BB_sum"],1)
-    # aggregated["RB確率"] = round(aggregated["G数_sum"] / aggregated["RB_sum"],1)
-    # aggregated["合成確率"] = round(aggregated["G数_sum"] / ( aggregated["BB_sum"] + aggregated["RB_sum"] ),1)
-    # aggregated["payout"] = round(((aggregated["G数_sum"]*3 + aggregated["差枚_sum"]) / (aggregated["G数_sum"]*3))*100,1)
 
     # カラムの並び替え（必要に応じて）
     column_order = ["日付", "勝ち", "台数", "差枚_mean", "G数_mean",
@@ -195,8 +206,48 @@ def summary_data_frame(df):
     df["payout"] = round(((df["G数"]*3 + df["差枚"]) / (df["G数"]*3))*100,1)
 
     # カラムの並び替え（必要に応じて）
-    column_order = ["機種", "差枚", "G数", "BB", "RB",
+    column_order = ["日付","機種", "差枚", "G数", "BB", "RB",
                     "BB確率", "RB確率", "合成確率", "payout"]
     df = df[column_order]
 
     return df
+
+def get_pivoted_by_machine_no(df):
+    dates = sorted(df["日付"].drop_duplicates().tolist(), reverse=True)
+    columns = ["機種", "差枚", "G数"]
+    desired_order = [f"{col}_{date.strftime('%Y-%m-%d')}" for date in dates for col in columns]
+
+    pivoted = df.pivot(index="台番", columns="日付", values=["機種", "差枚", "G数"])
+    pivoted.columns = [f"{col[0]}_{col[1].strftime('%Y-%m-%d')}" for col in pivoted.columns]
+    pivoted = pivoted[desired_order]
+
+    return pivoted
+
+def get_pivoted_by_machine(df):
+    # "機種","日付"単位で"差枚","G数"の平均値を計算
+    mean_values = df.groupby(["機種", "日付"])[["差枚", "G数"]].mean().reset_index()
+
+    # "機種","日付"単位のデータ数をカウント
+    data_count = df.groupby(["機種", "日付"]).size().reset_index(name="台数")
+
+    # "機種","日付"単位で"差枚"が0より大きいデータ数をカウント
+    positive_count = df[df["差枚"] > 0].groupby(["機種", "日付"]).size().reset_index(name="勝ち")
+
+    # 結果を結合
+    aggregated = mean_values.merge(data_count, on=["機種", "日付"])
+    aggregated = aggregated.merge(positive_count, on=["機種", "日付"], how="left")
+    aggregated["勝ち"] = aggregated["勝ち"].fillna(0).astype(int)  # NaNを0に変換
+
+    # 差枚、G数をround
+    aggregated["差枚"] = round(aggregated["差枚"],1)
+    aggregated["G数"] = round(aggregated["G数"],1)
+
+    dates = sorted(aggregated["日付"].drop_duplicates().tolist(), reverse=True)
+    columns = ["勝ち", "台数", "差枚", "G数"]
+    desired_order = [f"{col}_{date.strftime('%Y-%m-%d')}" for date in dates for col in columns]
+
+    pivoted = aggregated.pivot(index="機種", columns="日付", values=["勝ち", "台数", "差枚", "G数"])
+    pivoted.columns = [f"{col[0]}_{col[1].strftime('%Y-%m-%d')}" for col in pivoted.columns]
+    pivoted = pivoted[desired_order]
+
+    return pivoted
