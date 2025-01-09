@@ -143,6 +143,34 @@ def summary_by_machine(df):
 
     return aggregated
 
+def summary_by_machine_no(df):
+    # 機種単位でグループ化して集約
+    aggregated = df.groupby("台番").agg({
+        "差枚": ["sum", "mean"],
+        "G数": ["sum", "mean"],
+        "BB": ["sum", "mean"],
+        "RB": ["sum", "mean"]
+    })
+
+    # カラム名のフラット化（必要に応じて）
+    aggregated.columns = ['_'.join(col).strip() for col in aggregated.columns]
+    aggregated.reset_index(inplace=True)
+
+    # 機種単位のデータ数を追加
+    aggregated['台数'] = df.groupby("台番").size().values
+    # "差枚"が0より大きいデータの数を追加
+    aggregated['勝ち'] = df[df["差枚"] > 0].groupby("台番").size().reindex(aggregated["台番"], fill_value=0).values
+
+    aggregated = data_shaping_for_summary(aggregated)
+
+    # カラムの並び替え（必要に応じて）
+    column_order = ["台番", "勝ち", "台数", "差枚_mean", "G数_mean",
+                    "BB確率", "RB確率", "合成確率", "payout",
+                    "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
+    aggregated = aggregated[column_order]
+
+    return aggregated
+
 def summary_by_date(df):
     # 日付単位でグループ化して集約
     aggregated = df.groupby("日付").agg({
