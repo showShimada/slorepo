@@ -16,12 +16,15 @@ def create_one_day_data(main_url):
 
         # Display the result
         st.write("スクレイピングが完了しました。結果を表示します。")
+        summary_all = summary_all.set_index('日付')
         st.header("日付単位集計データ")
         st.dataframe(summary_all)
 
+        summary_by_machine_df = summary_by_machine_df.set_index('機種')
         st.header("機種別集計データ")
         st.dataframe(summary_by_machine_df)
 
+        combined_df = combined_df.set_index('台番')
         st.header("台別データ")
         st.dataframe(combined_df)
 
@@ -52,6 +55,7 @@ def create_vertical_data(main_url,target_dates):
 
         # Display the result
         st.write("スクレイピングが完了しました。結果を表示します。")
+        summary_all = summary_all.set_index('日付')
         st.header("日付単位集計データ")
         st.dataframe(summary_all)
 
@@ -61,6 +65,7 @@ def create_vertical_data(main_url,target_dates):
         st.header("台番別データ")
         st.dataframe(pivoted_by_machine_no)
 
+        combined_df = combined_df.set_index('台番')
         st.header("元データ")
         st.dataframe(combined_df)
 
@@ -87,15 +92,20 @@ def create_aggregated_data(main_url,target_dates):
 
         # Display the result
         st.write("スクレイピングが完了しました。結果を表示します。")
+
+        summary_all = summary_all.set_index('日付')
         st.header("日付単位集計データ")
         st.dataframe(summary_all)
 
+        summary_by_machine_df = summary_by_machine_df.set_index('機種')
         st.header("機種別集計データ")
         st.dataframe(summary_by_machine_df)
 
+        summary_by_machine_no_df = summary_by_machine_no_df.set_index('台番')
         st.header("台番別データ")
         st.dataframe(summary_by_machine_no_df)
 
+        combined_df = combined_df.set_index('台番')
         st.header("元データ")
         st.dataframe(combined_df)
 
@@ -153,15 +163,20 @@ def create_check_result(main_url,target_dates,target):
 
         # Display the result
         st.write("スクレイピングが完了しました。結果を表示します。")
+
+        summary_all = summary_all.set_index('日付')
         st.header("日付単位集計データ")
         st.dataframe(summary_all)
 
+        summary_by_machine_df2 = summary_by_machine_df2.set_index('機種')
         st.header("機種別集計データ")
         st.dataframe(summary_by_machine_df2)
 
+        summary_by_machine_no_df2 = summary_by_machine_no_df2.set_index('台番')
         st.header("台番別データ")
         st.dataframe(summary_by_machine_no_df2)
 
+        combined_df = combined_df.set_index('台番')
         st.header("元データ")
         st.dataframe(combined_df)
 

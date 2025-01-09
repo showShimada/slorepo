@@ -206,7 +206,7 @@ def summary_data_frame(df):
     df["payout"] = round(((df["G数"]*3 + df["差枚"]) / (df["G数"]*3))*100,1)
 
     # カラムの並び替え（必要に応じて）
-    column_order = ["日付","機種", "差枚", "G数", "BB", "RB",
+    column_order = ["日付","台番","機種", "差枚", "G数", "BB", "RB",
                     "BB確率", "RB確率", "合成確率", "payout"]
     df = df[column_order]
 
