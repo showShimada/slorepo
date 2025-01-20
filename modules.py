@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import quote, urljoin
-
+import urllib.request, urllib.error
+from io import StringIO
 
 def get_links_from_main_page(url):
     """Main page scraper to get all links within a specific table."""
@@ -41,7 +42,7 @@ def scrape_detail_page(url):
 
     # Extract table data
     table = soup.find('table', class_='table2')
-    df = pd.read_html(str(table))[0]
+    df = pd.read_html(StringIO(str(table)))[0]
 
     # Set index to "台番" and drop "平均" row
     df = df.set_index('台番')
@@ -84,7 +85,7 @@ def scrape_detail_page_variety(url):
         # Extract table data
         table = columns_div.find('table')
 
-        df = pd.read_html(str(table))[0]
+        df = pd.read_html(StringIO(str(table)))[0]
 
         # Set index to "台番" and drop "平均" row
         df = df.drop(columns='合成')
@@ -292,3 +293,13 @@ def get_dict_url():
         "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/"
     }
     return dict_url
+
+def is_exist_url(url):
+    flag = True
+    try:
+        f = urllib.request.urlopen(url)
+        f.close()
+    except:
+        flag = False
+        print ("NotFound:" + url)
+    return flag
