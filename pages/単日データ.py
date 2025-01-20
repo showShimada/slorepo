@@ -11,7 +11,7 @@ def main():
 
     dict_url = modules.get_dict_url()
     selected_hole = st.selectbox('店舗を選択',dict_url)
-    target_date = st.text_input('日付を指定：YYYYMMDD')
+    target_date = format(st.date_input('確認したい対象の日付を選択'),"%Y%m%d")
 
     # Main URL
     main_url =  dict_url[selected_hole] + target_date + "/"

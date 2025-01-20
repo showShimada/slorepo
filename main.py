@@ -1,7 +1,7 @@
 import streamlit as st
 
 def main():
-    st.title("ビックマーチのデータ集計")
+    st.title("データ集計アプリ")
     st.write("単日データ：日付を指定して全台のデータを見れるよ")
     st.write("縦の比較：指定した日付別のデータを機種別、台番別に見れるよ")
     st.write("集計：指定した日付別のデータを集計しできるよ")
