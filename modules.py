@@ -286,6 +286,9 @@ def get_dict_url():
         "八柱UNO":"https://www.slorepo.com/hole/e585abe69fb1554e4fcode/",
         "南柏UNO":"https://www.slorepo.com/hole/e58d97e69f8f554e4fcode/",
         "本八幡UNO":"https://www.slorepo.com/hole/e69cace585abe5b9a1554e4fcode/",
-        "本八幡ZORON":"https://www.slorepo.com/hole/e69cace585abe5b9a15a6f526f4ecode/"
+        "本八幡ZORON":"https://www.slorepo.com/hole/e69cace585abe5b9a15a6f526f4ecode/",
+        "サンラッキー市川":"https://www.slorepo.com/hole/e382b5e383b3e383a9e38383e382ade383bce5b882e5b79de5ba97code/",
+        "エクスアリーナ柏":"https://www.slorepo.com/hole/e382a8e382afe382b9e382a2e383aae383bce3838ae69f8fcode/",
+        "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/"
     }
     return dict_url
