@@ -273,3 +273,19 @@ def scrape_one_day(target_url):
         combined_df = pd.concat([combined_df, df])
     
     return combined_df
+
+def get_dict_url():
+    dict_url = {
+        "ビックマーチ東習志野":"https://www.slorepo.com/hole/e38393e38383e382afe3839ee383bce38381e69db1e7bf92e5bf97e9878ee5ba97code/",
+        "楽園松戸":"https://www.slorepo.com/hole/e6a5bde59c92e69dbee688b8e5ba97code/",
+        "楽園柏":"https://www.slorepo.com/hole/e6a5bde59c92e69f8fe5ba97code/",
+        "エスパス稲毛海岸":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e7a8b2e6af9be9a785e5898de696b0e9a4a8code/",
+        "サンラッキー市川":"https://www.slorepo.com/hole/e382b5e383b3e383a9e38383e382ade383bce5b882e5b79de5ba97code/",
+        "ジュラク柏":"https://www.slorepo.com/hole/e382b8e383a5e383a9e382afe69f8fe5ba97code/",
+        "稲毛海岸UNO":"https://www.slorepo.com/hole/e7a8b2e6af9be6b5b7e5b2b8554e4fcode/",
+        "八柱UNO":"https://www.slorepo.com/hole/e585abe69fb1554e4fcode/",
+        "南柏UNO":"https://www.slorepo.com/hole/e58d97e69f8f554e4fcode/",
+        "本八幡UNO":"https://www.slorepo.com/hole/e69cace585abe5b9a1554e4fcode/",
+        "本八幡ZORON":"https://www.slorepo.com/hole/e69cace585abe5b9a15a6f526f4ecode/"
+    }
+    return dict_url

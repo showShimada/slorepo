@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import modules
 
-def create_one_day_data(main_url):
-    # st.write("スクレイピングを開始します...")
+def create_one_day_data(main_url,selected_hole):
+    st.title(selected_hole + "のデータ")
 
     try:
         combined_df = modules.scrape_one_day(main_url)
@@ -15,7 +15,7 @@ def create_one_day_data(main_url):
         combined_df = modules.summary_data_frame(combined_df)
 
         # Display the result
-        st.write("スクレイピングが完了しました。結果を表示します。")
+        # st.write("スクレイピングが完了しました。結果を表示します。")
         summary_all = summary_all.set_index('日付')
         st.header("日付単位集計データ")
         st.dataframe(summary_all)
@@ -35,8 +35,8 @@ def get_date_to_choose(target_from,target_to):
     date_to_choose = pd.date_range(start=target_from,end=target_to,freq='D')
     return date_to_choose
 
-def create_vertical_data(main_url,target_dates):
-    # st.write("スクレイピングを開始します...")
+def create_vertical_data(main_url,target_dates,selected_hole):
+    st.title(selected_hole + "のデータ")
 
     try:
         # Initialize an empty DataFrame
@@ -72,8 +72,8 @@ def create_vertical_data(main_url,target_dates):
     except Exception as e:
         st.error(f"エラーが発生しました: {e}")
 
-def create_aggregated_data(main_url,target_dates):
-    # st.write("スクレイピングを開始します...")
+def create_aggregated_data(main_url,target_dates,selected_hole):
+    st.title(selected_hole + "のデータ")
 
     try:
         # Initialize an empty DataFrame
@@ -112,8 +112,8 @@ def create_aggregated_data(main_url,target_dates):
     except Exception as e:
         st.error(f"エラーが発生しました: {e}")
 
-def create_check_result(main_url,target_dates,target):
-    # st.write("スクレイピングを開始します...")
+def create_check_result(main_url,target_dates,target,selected_hole):
+    st.title(selected_hole + "のデータ")
 
     try:
         # Initialize an empty DataFrame
