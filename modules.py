@@ -290,7 +290,14 @@ def get_dict_url():
         "本八幡ZORON":"https://www.slorepo.com/hole/e69cace585abe5b9a15a6f526f4ecode/",
         "サンラッキー市川":"https://www.slorepo.com/hole/e382b5e383b3e383a9e38383e382ade383bce5b882e5b79de5ba97code/",
         "エクスアリーナ柏":"https://www.slorepo.com/hole/e382a8e382afe382b9e382a2e383aae383bce3838ae69f8fcode/",
-        "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/"
+        "飯田橋プレサス":"https://www.slorepo.com/hole/e9a3afe794b0e6a98be38397e383ace382b5e382b9code/",
+        "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/",
+        "フルハウス中延店":"https://www.slorepo.com/hole/e38395e383abe3838fe382a6e382b9e4b8ade5bbb6e5ba97code/",
+        "みとや水道橋":"https://www.slorepo.com/hole/e381bfe381a8e38284e6b0b4e98193e6a98be5ba97code/",
+        "アサヒ森下店":"https://www.slorepo.com/hole/e38391e383bce383a9e383bce382a2e382b5e38392e6a3aee4b88be5ba97code/",
+        "エムディー目黒":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
+        "ニュークラウン綾瀬店":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
+        "秋葉原UNO":"https://www.slorepo.com/hole/e7a78be89189e58e9f554e4fcode/"
     }
     return dict_url
 
