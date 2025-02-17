@@ -292,11 +292,15 @@ def get_dict_url():
         "エクスアリーナ柏":"https://www.slorepo.com/hole/e382a8e382afe382b9e382a2e383aae383bce3838ae69f8fcode/",
         "飯田橋プレサス":"https://www.slorepo.com/hole/e9a3afe794b0e6a98be38397e383ace382b5e382b9code/",
         "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/",
+        "ビックディッパー戸越銀座店":"https://www.slorepo.com/hole/e38393e38383e382afe38387e382a3e38383e38391e383bce688b8e8b68ae98a80e5baa7e5ba97code/",
         "フルハウス中延店":"https://www.slorepo.com/hole/e38395e383abe3838fe382a6e382b9e4b8ade5bbb6e5ba97code/",
         "みとや水道橋":"https://www.slorepo.com/hole/e381bfe381a8e38284e6b0b4e98193e6a98be5ba97code/",
         "アサヒ森下店":"https://www.slorepo.com/hole/e38391e383bce383a9e383bce382a2e382b5e38392e6a3aee4b88be5ba97code/",
         "エムディー目黒":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
         "ニュークラウン綾瀬店":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
+        "アイランド秋葉原店":"https://www.slorepo.com/hole/e382a2e382a4e383a9e383b3e38389e7a78be89189e58e9fe5ba97code/",
+        "エスパス秋葉原駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e7a78be89189e58e9fe9a785e5898de5ba97code/",
+        "エスパス秋葉原駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e7a78be89189e58e9fe9a785e5898de5ba97code/",
         "秋葉原UNO":"https://www.slorepo.com/hole/e7a78be89189e58e9f554e4fcode/"
     }
     return dict_url
