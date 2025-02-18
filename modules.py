@@ -147,10 +147,10 @@ def summary_by_machine(df):
 def summary_by_machine_no(df):
     # 台番単位でグループ化して集約
     aggregated = df.groupby(["台番"]).agg({
-        "差枚": ["sum", "mean"],
-        "G数": ["sum", "mean"],
-        "BB": ["sum", "mean"],
-        "RB": ["sum", "mean"]
+        "差枚": ["sum", "mean", "max", "min"],
+        "G数": ["sum", "mean", "max", "min"],
+        "BB": ["sum", "mean", "max", "min"],
+        "RB": ["sum", "mean", "max", "min"]
     })
 
     # カラム名のフラット化（必要に応じて）
@@ -167,7 +167,7 @@ def summary_by_machine_no(df):
     # カラムの並び替え（必要に応じて）
     column_order = ["台番", "勝ち", "台数", "差枚_mean", "G数_mean",
                     "BB確率", "RB確率", "合成確率", "payout",
-                    "差枚_sum", "G数_sum", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
+                    "差枚_sum", "G数_sum", "BB_max", "RB_max", "BB_sum", "RB_sum", "BB_mean", "RB_mean"]
     aggregated = aggregated[column_order]
 
     return aggregated
@@ -215,10 +215,13 @@ def summary_data_frame(df):
 
 def get_pivoted_by_machine_no(df):
     dates = sorted(df["日付"].drop_duplicates().tolist(), reverse=True)
-    columns = ["機種", "差枚", "G数"]
+    # columns = ["機種", "差枚", "G数"]
+    # desired_order = [f"{col}_{date.strftime('%Y-%m-%d')}" for date in dates for col in columns]
+    columns = ["機種", "G数", "BB", "RB", "差枚"]
     desired_order = [f"{col}_{date.strftime('%Y-%m-%d')}" for date in dates for col in columns]
 
-    pivoted = df.pivot(index="台番", columns="日付", values=["機種", "差枚", "G数"])
+    # pivoted = df.pivot(index="台番", columns="日付", values=["機種", "差枚", "G数"])
+    pivoted = df.pivot(index="台番", columns="日付", values=["機種", "G数", "BB", "RB", "差枚"])
     pivoted.columns = [f"{col[0]}_{col[1].strftime('%Y-%m-%d')}" for col in pivoted.columns]
     pivoted = pivoted[desired_order]
 
