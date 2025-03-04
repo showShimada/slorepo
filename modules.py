@@ -303,7 +303,8 @@ def get_dict_url():
         "ニュークラウン綾瀬店":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
         "アイランド秋葉原店":"https://www.slorepo.com/hole/e382a2e382a4e383a9e383b3e38389e7a78be89189e58e9fe5ba97code/",
         "エスパス秋葉原駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e7a78be89189e58e9fe9a785e5898de5ba97code/",
-        "秋葉原UNO":"https://www.slorepo.com/hole/e7a78be89189e58e9f554e4fcode/"
+        "秋葉原UNO":"https://www.slorepo.com/hole/e7a78be89189e58e9f554e4fcode/",
+        "エスパス１３００新小岩北口駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b931333030e696b0e5b08fe5b2a9e58c97e58fa3e9a785e5898de5ba97code//"
     }
     return dict_url
 
