@@ -280,6 +280,14 @@ def scrape_one_day(target_url):
 
 def get_dict_url():
     dict_url = {
+        "飯田橋プレサス":"https://www.slorepo.com/hole/e9a3afe794b0e6a98be38397e383ace382b5e382b9code/",
+        "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/",
+        "ビックディッパー戸越銀座店":"https://www.slorepo.com/hole/e38393e38383e382afe38387e382a3e38383e38391e383bce688b8e8b68ae98a80e5baa7e5ba97code/",
+        "フルハウス中延店":"https://www.slorepo.com/hole/e38395e383abe3838fe382a6e382b9e4b8ade5bbb6e5ba97code/",
+        "大井ニュー東京東口店":"https://www.slorepo.com/hole/e5a4a7e4ba95e3838be383a5e383bce69db1e4baace69db1e58fa3e5ba97code/",
+        "スーパーハリウッド品川":"https://www.slorepo.com/hole/e382b9e383bce38391e383bce3838fe383aae382a6e38383e38389e59381e5b79dcode/",
+        "エムディー目黒":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
+        "BIGディッパー新橋1号店":"https://www.slorepo.com/hole/e38393e38383e382afe38387e382a3e38383e38391e383bce696b0e6a98b31e58fb7e5ba97code/",
         "ビックマーチ東習志野":"https://www.slorepo.com/hole/e38393e38383e382afe3839ee383bce38381e69db1e7bf92e5bf97e9878ee5ba97code/",
         "楽園松戸":"https://www.slorepo.com/hole/e6a5bde59c92e69dbee688b8e5ba97code/",
         "楽園柏":"https://www.slorepo.com/hole/e6a5bde59c92e69f8fe5ba97code/",
@@ -291,20 +299,30 @@ def get_dict_url():
         "南柏UNO":"https://www.slorepo.com/hole/e58d97e69f8f554e4fcode/",
         "本八幡UNO":"https://www.slorepo.com/hole/e69cace585abe5b9a1554e4fcode/",
         "本八幡ZORON":"https://www.slorepo.com/hole/e69cace585abe5b9a15a6f526f4ecode/",
-        "サンラッキー市川":"https://www.slorepo.com/hole/e382b5e383b3e383a9e38383e382ade383bce5b882e5b79de5ba97code/",
         "エクスアリーナ柏":"https://www.slorepo.com/hole/e382a8e382afe382b9e382a2e383aae383bce3838ae69f8fcode/",
-        "飯田橋プレサス":"https://www.slorepo.com/hole/e9a3afe794b0e6a98be38397e383ace382b5e382b9code/",
-        "戸越ミナト":"https://www.slorepo.com/hole/e688b8e8b68ae3839fe3838ae38388code/",
-        "ビックディッパー戸越銀座店":"https://www.slorepo.com/hole/e38393e38383e382afe38387e382a3e38383e38391e383bce688b8e8b68ae98a80e5baa7e5ba97code/",
-        "フルハウス中延店":"https://www.slorepo.com/hole/e38395e383abe3838fe382a6e382b9e4b8ade5bbb6e5ba97code/",
-        "みとや水道橋":"https://www.slorepo.com/hole/e381bfe381a8e38284e6b0b4e98193e6a98be5ba97code/",
+        "みとやジャックポット錦糸町":"https://www.slorepo.com/hole/e381bfe381a8e38284e382b8e383a3e38383e382afe3839de38383e38388e98ca6e7b3b8e794bacode/",
+        "エスパス１３００新小岩北口駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b931333030e696b0e5b08fe5b2a9e58c97e58fa3e9a785e5898de5ba97code/",
+        "マルハン小岩スロット館":"https://www.slorepo.com/hole/e3839ee383abe3838fe383b3e5b08fe5b2a9e5ba97code/",
         "アサヒ森下店":"https://www.slorepo.com/hole/e38391e383bce383a9e383bce382a2e382b5e38392e6a3aee4b88be5ba97code/",
-        "エムディー目黒":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
         "ニュークラウン綾瀬店":"https://www.slorepo.com/hole/e382a8e383a0e38387e382a3e383bce79baee9bb92code/",
         "アイランド秋葉原店":"https://www.slorepo.com/hole/e382a2e382a4e383a9e383b3e38389e7a78be89189e58e9fe5ba97code/",
         "エスパス秋葉原駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e7a78be89189e58e9fe9a785e5898de5ba97code/",
         "秋葉原UNO":"https://www.slorepo.com/hole/e7a78be89189e58e9f554e4fcode/",
-        "エスパス１３００新小岩北口駅前店":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b931333030e696b0e5b08fe5b2a9e58c97e58fa3e9a785e5898de5ba97code//"
+        "エスパス上野新館":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e4b88ae9878ee696b0e9a4a8code/",
+        "エスパス上野本館":"https://www.slorepo.com/hole/e382a8e382b9e38391e382b9e697a5e68b93e4b88ae9878ee69cace9a4a8code/",
+        "マルホン":"https://www.slorepo.com/hole/e3839ee383abe3839be383b3code/",
+        "楽園アメ横店":"https://www.slorepo.com/hole/e6a5bde59c92e382a2e383a1e6a8aae5ba97code/",
+        "ウエスタン葛西店":"https://www.slorepo.com/hole/e382a6e382a8e382b9e382bfe383b3e8919be8a5bfe5ba97code/",
+        "アムディ亀有":"https://www.slorepo.com/hole/e382a2e383a0e38387e382a3e4ba80e69c89code/",
+        "マルハン亀有店":"https://www.slorepo.com/hole/e3839ee383abe3838fe383b3e4ba80e69c89e5ba97code/",
+        "コンサートホール北千住":"https://www.slorepo.com/hole/e382b3e383b3e382b5e383bce38388e3839be383bce383abe58c97e58d83e4bd8fcode/",
+        "ジャラン谷在家店":"https://www.slorepo.com/hole/e382b8e383a3e383a9e383b3e8b0b7e59ca8e5aeb6e5ba97code/",
+        "メッセ高円寺本館":"https://www.slorepo.com/hole/e383a1e38383e382bbe9ab98e58686e5afbae5ba97code/",
+        "阿佐ヶ谷オーシャン":"https://www.slorepo.com/hole/e998bfe4bd90e383b6e8b0b7e382aae383bce382b7e383a3e383b3code/",
+        "オーパ阿佐ヶ谷":"https://www.slorepo.com/hole/e382aae383bce38391e998bfe4bd90e383b6e8b0b7code/",
+        "オーパ 荻窪店":"https://www.slorepo.com/hole/e382aae383bce38391e88dbbe7aaaacode/",
+        "メッセ荻窪":"https://www.slorepo.com/hole/e383a1e38383e382bbe88dbbe7aaaae5ba97code/",
+        "みとや水道橋":"https://www.slorepo.com/hole/e381bfe381a8e38284e6b0b4e98193e6a98be5ba97code/"
     }
     return dict_url
 

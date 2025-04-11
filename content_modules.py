@@ -157,7 +157,7 @@ def create_check_result(main_url,target_dates,target,selected_hole):
         summary_by_machine_no_df2.columns = column_name
 
         column_order = ["台番", "差枚_結果", "G数_結果", "BB確率_結果", "RB確率_結果", "合成確率_結果", "payout_結果",
-                        "勝ち_比較", "台数_比較", "平均差枚_比較", "平均G数_比較", "合計差枚_比較", "合計G数_比較", "BB確率_比較", "RB確率_比較", "合成確率_比較", "payout_比較", "最大BB_比較", "最大RB_比較"]
+                        "勝ち_比較", "台数_比較", "平均差枚_比較", "平均G数_比較", "合計差枚_比較", "合計G数_比較", "BB確率_比較", "RB確率_比較", "合成確率_比較", "payout_比較", "合計BB_比較", "合計RB_比較"]
         summary_by_machine_no_df2 = summary_by_machine_no_df2[column_order]
 
 
