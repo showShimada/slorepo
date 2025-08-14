@@ -6,9 +6,9 @@ from urllib.parse import quote, urljoin
 import urllib.request, urllib.error
 from io import StringIO
 
-def get_links_from_main_page(url):
+def get_links_from_main_page(url, ua, proxies):
     """Main page scraper to get all links within a specific table."""
-    response = requests.get(url)
+    response = requests.get(url, headers={'User-Agent': ua}, proxies=proxies)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find('figure', class_='wp-block-table2')
@@ -20,9 +20,9 @@ def get_links_from_main_page(url):
     links = [urljoin(url, a['href']) for a in table.find_all('a', href=True)]
     return links
 
-def get_links_from_main_page_variety(url):
+def get_links_from_main_page_variety(url, ua, proxies):
     """Main page scraper to get all links within a specific table."""
-    response = requests.get(url)
+    response = requests.get(url, headers={'User-Agent': ua}, proxies=proxies)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find_all('figure', class_='wp-block-table2')[1]
@@ -34,9 +34,9 @@ def get_links_from_main_page_variety(url):
     links = [urljoin(url, a['href']) for a in table.find_all('a', href=True)]
     return links
 
-def scrape_detail_page(url):
+def scrape_detail_page(url, ua, proxies):
     """Scrape the detail page for table data and additional information."""
-    response = requests.get(url)
+    response = requests.get(url, headers={'User-Agent': ua}, proxies=proxies)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -62,9 +62,9 @@ def scrape_detail_page(url):
 
     return df
 
-def scrape_detail_page_variety(url):
+def scrape_detail_page_variety(url, ua, proxies):
     """Scrape the detail page for table data and additional information."""
-    response = requests.get(url)
+    response = requests.get(url, headers={'User-Agent': ua}, proxies=proxies)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -256,24 +256,24 @@ def get_pivoted_by_machine(df):
 
     return pivoted
 
-def scrape_one_day(target_url):
+def scrape_one_day(target_url, ua, proxies):
     # Get links from the main page
-    links = get_links_from_main_page(target_url)
+    links = get_links_from_main_page(target_url, ua, proxies)
     # st.write(f"複数設置機種のリンクを取得しました: {len(links)}件")
 
     combined_df = pd.DataFrame()
     # Scrape each detail page
     for link in links:
-        df = scrape_detail_page(link)
+        df = scrape_detail_page(link, ua, proxies)
         combined_df = pd.concat([combined_df, df])
 
     # Get links from the main page
-    links = get_links_from_main_page_variety(target_url)
+    links = get_links_from_main_page_variety(target_url, ua, proxies)
     # st.write(f"少数設置機種のリンクを取得しました: {len(links)}件")
 
     # Scrape each detail page
     for link in links:
-        df = scrape_detail_page_variety(link)
+        df = scrape_detail_page_variety(link, ua, proxies)
         combined_df = pd.concat([combined_df, df])
     
     return combined_df
@@ -329,12 +329,22 @@ def get_dict_url():
     }
     return dict_url
 
-def is_exist_url(url):
+def is_exist_url(url, ua, proxies):
     flag = True
     try:
-        f = urllib.request.urlopen(url)
-        f.close()
-    except:
+        res = requests.get(url, headers={'User-Agent': ua}, proxies=proxies)
+        if 200 <= res.status_code < 400:
+            print(url, "アクセス成功")
+        elif res.status_code == 403:
+            print(url, "アクセス拒否（403 Forbidden）")
+            flag = False
+        elif res.status_code == 404:
+            print(url, "存在しない（404 Not Found）")
+            flag = False
+        else:
+            print(f"⚠️ ステータスコード {res.status_code}")
+            flag = False
+    except requests.exceptions.RequestException as e:
+        print("❌ アクセスできませんでした:", e)
         flag = False
-        print ("NotFound:" + url)
     return flag
